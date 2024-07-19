@@ -1,0 +1,12 @@
+(async function() {
+        let r = "";
+            for (let i = 1; i <= 26; i++) {
+                    let f = await fetch(`https://api.codemao.cn/web/forums/replies/1361914/comments?limit=10&page=${i}`)
+                            let x = await f.json();
+                                    for (const e of x.items) {
+                                                r += `${e.user.nickname}: ${e.content}\n`;
+                                                        };
+                                                            }
+                                                                console.log(r);
+                                                                })().catch(console.error);
+})
