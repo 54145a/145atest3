@@ -15,10 +15,12 @@ export default {
         if (request.url.pathname === "/robots.txt") {
             return new Response("User-Agent: *\nDisallow: /");
         }
-        let newRequest = new Request(request.url.replace(proxyHostname, targetHostname), {
+        let newRequest = new Request(request.url, {
             headers: request.headers,
             body: request.body
         });
+        newRequest.url.replace(proxyHostname, targetHostname);
+        console.log("nurl", newRequest.url);
         newRequest.headers.set("Access-Control-Allow-Origin", "*");
         newRequest.headers.delete("Origin");
         newRequest.headers.delete("Referrer");
