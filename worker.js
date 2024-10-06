@@ -45,6 +45,7 @@ export default {
         return new Response(JSON.stringify(r, void 0, 4));*/
         r.resH = jsonHeaders(newResponse.headers);
         r.resB = await newResponse.text();
-        return new Response(JSON.stringify(r, void 0, 4));
+        //return new Response(JSON.stringify(r, void 0, 4));
+        return newResponse;
     }
 };
