@@ -7,9 +7,9 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-function jsonHeaders(h){
+function jsonHeaders(h) {
     let r = {};
-    h.forEach((v,k) => r[k] = v);
+    h.forEach((v, k) => r[k] = v);
     return r;
 }
 export default {
