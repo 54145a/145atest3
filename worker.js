@@ -10,14 +10,15 @@
 
 export default {
     async fetch(request, env, ctx) {
-        let url = new URL(request.url);
         let targetHostname = "zh.wikipedia.org";
-        let proxyHostname = url.hostname;
-        if (url.pathname === "/robots.txt") {
+        let proxyHostname = request.url.hostname;
+        if (request.url.pathname === "/robots.txt") {
             return new Response("User-Agent: *\nDisallow: /");
         }
-        url.hostname = targetHostname;
-        let newRequest = new Request(url, request);
+        let newRequest = new Request(request.url.replace(proxyHostname, targetHostname), {
+            headers: request.headers,
+            body: request.body
+        });
         //newRequest.headers.set("Access-Control-Allow-Origin", "*");
         newRequest.headers.delete("Origin");
         newRequest.headers.delete("Referrer");
