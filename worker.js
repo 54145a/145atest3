@@ -32,6 +32,7 @@ export default {
         r.reqH = jsonHeaders(newRequest.headers);
         let response = await fetch(newRequest);
         let newText = (await response.text()).replace(targetHostname, proxyHostname);
+        r.newT = newText;
         let newResponse = new Response(newText);
         /*let location = response.headers.get("Location");
         if (location) {
