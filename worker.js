@@ -31,7 +31,7 @@ export default {
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
         r.reqH = jsonHeaders(newRequest.headers);
         let response = await fetch(newRequest);
-        let newText = (await response.text()).replace(targetHostname, proxyHostname);
+        let newText = (await response.text()).replaceAll(targetHostname, proxyHostname);
         r.newT = newText;
         let newResponse = new Response(newText);
         /*let location = response.headers.get("Location");
