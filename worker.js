@@ -12,7 +12,7 @@ export default {
     async fetch(request, env, ctx) {
         let targetHostname = "zh.wikipedia.org";
         let proxyHostname = "test3.54145a.cn.eu.org";
-        console.log(request.url.pathname);
+        console.log("pn",request.url.pathname);
         if (request.url.pathname === "/robots.txt") {
             return new Response("User-Agent: *\nDisallow: /");
         }
@@ -20,7 +20,6 @@ export default {
             headers: request.headers,
             body: request.body
         });
-        console.log("nurl", newRequest.url);
         newRequest.headers.set("Access-Control-Allow-Origin", "*");
         newRequest.headers.delete("Origin");
         newRequest.headers.delete("Referrer");
