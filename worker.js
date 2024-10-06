@@ -12,7 +12,6 @@ export default {
     async fetch(request, env, ctx) {
         let targetHostname = "zh.wikipedia.org";
         let proxyHostname = "test3.54145a.cn.eu.org";
-        console.log("pn",request.url.pathname);
         if (new URL(request.url).pathname === "/robots.txt") {
             return new Response("User-Agent: *\nDisallow: /");
         }
@@ -26,11 +25,12 @@ export default {
         newRequest.headers.delete("Host");
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
         let response = await fetch(newRequest);
-        let location = response.headers.get("Location");
+        /*let location = response.headers.get("Location");
         if (location) {
             console.log("location",location);
             response.headers.set("Location", location.replace(targetHostname, proxyHostname));
-        }
+        }*/
+        response.headers.forEach((v, k) => response.headers.set(k, v.replace(targetHostname, proxyHostname)));
         let newText = (await response.text()).replace(targetHostname, proxyHostname);
         /*let r = {};
         response.headers.forEach((v, k) => r[k] = v);
