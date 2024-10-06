@@ -15,7 +15,7 @@ export default {
         if (url.pathname === "/robots.txt") {
             return new Response("User-Agent: *\nDisallow: /");
         }
-        url.hostname = "zh.wikipedia.org";
+        url.hostname = "github.com";
         let newRequest = new Request(url, request);
         newRequest.headers.set("Access-Control-Allow-Origin", "*");
         newRequest.headers.delete("Origin");
