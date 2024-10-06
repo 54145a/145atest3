@@ -13,7 +13,7 @@ export default {
         let targetHostname = "zh.wikipedia.org";
         let proxyHostname = "test3.54145a.cn.eu.org";
         console.log("pn",request.url.pathname);
-        if (request.url.pathname === "/robots.txt") {
+        if (new URL(request.url).pathname === "/robots.txt") {
             return new Response("User-Agent: *\nDisallow: /");
         }
         let newRequest = new Request(request.url.replace(proxyHostname, targetHostname), {
