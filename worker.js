@@ -20,6 +20,7 @@ export default {
         newRequest.headers.set("Access-Control-Allow-Origin", "*");
         newRequest.headers.delete("Origin");
         newRequest.headers.delete("Referrer");
+        newRequest.headers.delete("Host");
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
         let r = {};
         newRequest.headers.forEach((v, k) => r[k] = v);
