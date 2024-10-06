@@ -15,7 +15,7 @@ function jsonHeaders(h) {
 export default {
     async fetch(request, env, ctx) {
         let r = {};
-        let targetHostname = "zh.wikipedia.org";
+        let targetHostname = "zh.m.wikipedia.org";
         let proxyHostname = "test3.54145a.cn.eu.org";
         if (new URL(request.url).pathname === "/robots.txt") {
             return new Response("User-Agent: *\nDisallow: /");
@@ -34,8 +34,8 @@ export default {
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
         r.reqH = jsonHeaders(newRequest.headers);
         let response = await fetch(newRequest);
-        if(response.url !== newRequest.url){
-            return Response.redirect(response.url.replace(targetHostname, proxyHostname));
+        if (response.url !== newRequest.url) {
+            return Response.redirect(response.url.replace(targetHostname, proxyHostname), response.status);
         }
         //response.url.replace(targetHostname, proxyHostname);
         let newHeaders = new Headers();
@@ -53,7 +53,6 @@ export default {
         newHeaders.delete("clear-site-data");
         response.headers.forEach((v, k) => newHeaders.set(k, v.replace(targetHostname, proxyHostname)));
         let newResponse = new Response(newBody, {
-            status: response.status,
             headers: newHeaders
         });
         /*let location = response.headers.get("Location");
