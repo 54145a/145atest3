@@ -21,6 +21,6 @@ export default {
         newRequest.headers.delete("Origin");
         newRequest.headers.delete("Referrer");
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
-        return fetch(newRequest);
-    },
+        return Object((await fetch(newRequest)).headers).toString();
+    }
 };
