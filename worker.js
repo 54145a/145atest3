@@ -32,7 +32,6 @@ export default {
         r.reqH = jsonHeaders(newRequest.headers);
         let response = await fetch(newRequest);
         let newText = (await response.text()).replaceAll(targetHostname, proxyHostname);
-        r.newT = newText;
         let newResponse = new Response(newText);
         /*let location = response.headers.get("Location");
         if (location) {
@@ -44,7 +43,7 @@ export default {
         response.headers.forEach((v, k) => r[k] = v);
         return new Response(JSON.stringify(r, void 0, 4));*/
         r.resH = jsonHeaders(newResponse.headers);
-        r.resB = await newResponse.text();
+        r.resB = newText;
         //return new Response(JSON.stringify(r, void 0, 4));
         return newResponse;
     }
