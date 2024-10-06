@@ -32,21 +32,26 @@ export default {
         r.reqH = jsonHeaders(newRequest.headers);
         let response = await fetch(newRequest);
         response.url.replace(targetHostname, proxyHostname);
-        let newText = (await response.text()).replaceAll(targetHostname, proxyHostname);
-        let newResponse = new Response(newText, {
-            status: response.status
+        let newHeaders = new Headers();
+        let newText = null;
+        if (response.headers.get("Content-Type")?.startsWith("text")) {
+            let newText = (await response.text()).replaceAll(targetHostname, proxyHostname);
+            r.resB = newText;
+        }
+        response.headers.forEach((v, k) => newHeaders.set(k, v.replace(targetHostname, proxyHostname)));
+        let newResponse = new Response(newText ?? response.body, {
+            status: response.status,
+            headers: newHeaders
         });
         /*let location = response.headers.get("Location");
         if (location) {
             console.log("location",location);
             response.headers.set("Location", location.replace(targetHostname, proxyHostname));
         }*/
-        response.headers.forEach((v, k) => newResponse.headers.set(k, v.replace(targetHostname, proxyHostname)));
         /*let r = {};
         response.headers.forEach((v, k) => r[k] = v);
         return new Response(JSON.stringify(r, void 0, 4));*/
         r.resH = jsonHeaders(newResponse.headers);
-        r.resB = newText;
         //return new Response(JSON.stringify(r, void 0, 4));
         return newResponse;
     }
