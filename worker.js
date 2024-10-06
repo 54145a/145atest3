@@ -24,6 +24,7 @@ export default {
         newRequest.headers.delete("Referrer");
         newRequest.headers.delete("Host");
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
+        newRequest.headers.forEach((v, k) => response.headers.set(k, v.replace(proxyHostname, targetHostname)));
         let response = await fetch(newRequest);
         /*let location = response.headers.get("Location");
         if (location) {
