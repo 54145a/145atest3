@@ -9,4 +9,3 @@
                                                             }
                                                                 console.log(r);
                                                                 })().catch(console.error);
-})
