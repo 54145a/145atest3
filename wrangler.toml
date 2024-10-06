@@ -1,3 +1,4 @@
 # wrangler.toml (wrangler v3.78.6^)
+name = "145atest3"
 [observability]
 enabled = true
