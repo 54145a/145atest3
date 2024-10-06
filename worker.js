@@ -17,11 +17,10 @@ export default {
         }
         url.hostname = "zh.wikipedia.org";
         let newRequest = new Request(url, request);
-        /*newRequest.headers.set("Access-Control-Allow-Origin", "*");
+        newRequest.headers.set("Access-Control-Allow-Origin", "*");
         newRequest.headers.delete("Origin");
-        newRequest.headers.delete("Referrer");*/
-        newRequest.headers.keys().filter(v=>v.startsWith("cf")).forEach(v=>newRequest.headers.delete(v));
-        return new Response(JSON.stringify(newRequest.headers.keys().toArray().map(v=>[v,newRequest.headers.get(v)])));
-        //return fetch(newRequest);
+        newRequest.headers.delete("Referrer");
+        newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
+        return fetch(newRequest);
     },
 };
