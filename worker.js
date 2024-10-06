@@ -24,7 +24,10 @@ export default {
             body: request.body
         });
         request.headers.forEach((v, k) => newRequest.headers.set(k, v.replace(proxyHostname, targetHostname)));
-        //newRequest.headers.set("Access-Control-Allow-Origin", "*");
+        newRequest.headers.set("Access-Control-Allow-Origin", "*");
+        newRequest.headers.set('Access-Control-Allow-Origin', '*');
+        newRequest.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+        newRequest.headers.set('Access-Control-Allow-Headers', '*');
         //newRequest.headers.delete("Origin");
         //newRequest.headers.delete("Referrer");
         //newRequest.headers.delete("Host");
@@ -34,12 +37,12 @@ export default {
         response.url.replace(targetHostname, proxyHostname);
         let newHeaders = new Headers();
         let newBody = null;
-        if (response.headers.get("Content-Type")?.match(/application|html/)) {
+        /*if (response.headers.get("Content-Type")?.match(/application|html/)) {
             let newBody = (await response.text()).replaceAll(targetHostname, proxyHostname);
             r.resB = newBody;
         } else {
             newBody = response.body;
-        }
+        }*/newBody = response.body;
         response.headers.forEach((v, k) => newHeaders.set(k, v.replace(targetHostname, proxyHostname)));
         let newResponse = new Response(newBody, {
             status: response.status,
