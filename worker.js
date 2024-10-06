@@ -34,7 +34,7 @@ export default {
         response.url.replace(targetHostname, proxyHostname);
         let newText = (await response.text()).replaceAll(targetHostname, proxyHostname);
         let newResponse = new Response(newText, {
-            statusText: response.statusText
+            status: response.status
         });
         /*let location = response.headers.get("Location");
         if (location) {
