@@ -15,15 +15,16 @@ export default {
         if (url.pathname === "/robots.txt") {
             return new Response("User-Agent: *\nDisallow: /");
         }
-        url.hostname = "github.com";
+        url.hostname = "zh.wikipedia.org";
         let newRequest = new Request(url, request);
         newRequest.headers.set("Access-Control-Allow-Origin", "*");
         newRequest.headers.delete("Origin");
         newRequest.headers.delete("Referrer");
         newRequest.headers.delete("Host");
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
+        let response = await fetch(newRequest);
         let r = {};
-        newRequest.headers.forEach((v, k) => r[k] = v);
+        response.headers.forEach((v, k) => r[k] = v);
         return new Response(JSON.stringify(r, void 0, 4));
     }
 };
