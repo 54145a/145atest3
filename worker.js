@@ -46,11 +46,11 @@ export default {
         } else {
             newBody = response.body;
         }*/newBody = response.body;
-        newHeaders.set("access-control-allow-origin", "*");
-        newHeaders.set("access-control-allow-credentials", "true");
-        newHeaders.delete("content-security-policy");
-        newHeaders.delete("content-security-policy-report-only");
-        newHeaders.delete("clear-site-data");
+        //newHeaders.set("access-control-allow-origin", "*");
+        //newHeaders.set("access-control-allow-credentials", "true");
+        //newHeaders.delete("content-security-policy");
+        //newHeaders.delete("content-security-policy-report-only");
+        //newHeaders.delete("clear-site-data");
         response.headers.forEach((v, k) => newHeaders.set(k, v.replace(targetHostname, proxyHostname)));
         let newResponse = new Response(newBody, {
             headers: newHeaders
