@@ -35,7 +35,7 @@ export default {
         r.reqH = jsonHeaders(newRequest.headers);
         let response = await fetch(newRequest);
         if (response.url !== newRequest.url) {
-            return Response.redirect(response.url.replace(targetHostname, proxyHostname), response.status);
+            return Response.redirect(response.url.replace(targetHostname, proxyHostname));
         }
         //response.url.replace(targetHostname, proxyHostname);
         let newHeaders = new Headers();
