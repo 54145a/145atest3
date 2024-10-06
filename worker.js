@@ -29,8 +29,9 @@ export default {
         if (location) {
             response.headers.set("Location", location.replace(targetHostname, proxyHostname));
         }
-        let r = {};
+        /*let r = {};
         response.headers.forEach((v, k) => r[k] = v);
-        return new Response(JSON.stringify(r, void 0, 4));
+        return new Response(JSON.stringify(r, void 0, 4));*/
+        return response;
     }
 };
