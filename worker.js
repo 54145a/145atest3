@@ -16,7 +16,6 @@ export default {
             return new Response("User-Agent: *\nDisallow: /");
         }
         let newRequest = new Request(request.url.replace(proxyHostname, targetHostname), {
-            headers: new Headers(),
             body: request.body
         });
         request.headers.forEach((v, k) => newRequest.headers.set(k, v.replace(proxyHostname, targetHostname)));
