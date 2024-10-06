@@ -23,13 +23,13 @@ export default {
         let newRequest = new Request(request.url.replace(proxyHostname, targetHostname), {
             body: request.body
         });
-        request.headers.forEach((v, k) => newRequest.headers.set(k, v.replace(proxyHostname, targetHostname)));
+        //request.headers.forEach((v, k) => newRequest.headers.set(k, v.replace(proxyHostname, targetHostname)));
         //newRequest.headers.set("Access-Control-Allow-Origin", "*");
         //newRequest.headers.set("Access-Control-Allow-Origin", "*");
         //newRequest.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         //newRequest.headers.set("Access-Control-Allow-Headers", "*");
-        //newRequest.headers.delete("Origin");
-        //newRequest.headers.delete("Referrer");
+        newRequest.headers.delete("Origin");
+        newRequest.headers.delete("Referrer");
         //newRequest.headers.delete("Host");
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
         r.reqH = jsonHeaders(newRequest.headers);
