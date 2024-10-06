@@ -33,13 +33,13 @@ export default {
         let response = await fetch(newRequest);
         response.url.replace(targetHostname, proxyHostname);
         let newHeaders = new Headers();
-        let newText = null;
+        let newText = response.body?.tee();
         if (response.headers.get("Content-Type")?.match(/(text|application)\/*/)) {
             let newText = (await response.text()).replaceAll(targetHostname, proxyHostname);
             r.resB = newText;
         }
         response.headers.forEach((v, k) => newHeaders.set(k, v.replace(targetHostname, proxyHostname)));
-        let newResponse = new Response(newText ?? response.body, {
+        let newResponse = new Response(newText, {
             status: response.status,
             headers: newHeaders
         });
