@@ -1,4 +1,5 @@
 # wrangler.toml (wrangler v3.78.6^)
 name = "145atest3"
+main = "worker.js"
 [observability]
 enabled = true
