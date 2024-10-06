@@ -15,7 +15,7 @@ function jsonHeaders(h) {
 export default {
     async fetch(request, env, ctx) {
         let r = {};
-        let targetHostname = "bcm.fandom.com";
+        let targetHostname = "bcm.fandom.com/zh";
         let proxyHostname = "test3.54145a.cn.eu.org";
         if (new URL(request.url).pathname === "/robots.txt") {
             return new Response("User-Agent: *\nDisallow: /");
@@ -24,10 +24,9 @@ export default {
             body: request.body
         });
         //request.headers.forEach((v, k) => newRequest.headers.set(k, v.replace(proxyHostname, targetHostname)));
-        //newRequest.headers.set("Access-Control-Allow-Origin", "*");
-        //newRequest.headers.set("Access-Control-Allow-Origin", "*");
+        newRequest.headers.set("Access-Control-Allow-Origin", "*");
         //newRequest.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-        //newRequest.headers.set("Access-Control-Allow-Headers", "*");
+        newRequest.headers.set("Access-Control-Allow-Headers", "*");
         newRequest.headers.set("Referrer", newRequest.url);
         newRequest.headers.set("Host", proxyHostname);
         //newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
