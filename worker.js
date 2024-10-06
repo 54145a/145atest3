@@ -24,25 +24,33 @@ export default {
             body: request.body
         });
         request.headers.forEach((v, k) => newRequest.headers.set(k, v.replace(proxyHostname, targetHostname)));
-        newRequest.headers.set("Access-Control-Allow-Origin", "*");
-        newRequest.headers.set('Access-Control-Allow-Origin', '*');
-        newRequest.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-        newRequest.headers.set('Access-Control-Allow-Headers', '*');
+        //newRequest.headers.set("Access-Control-Allow-Origin", "*");
+        //newRequest.headers.set("Access-Control-Allow-Origin", "*");
+        //newRequest.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+        //newRequest.headers.set("Access-Control-Allow-Headers", "*");
         //newRequest.headers.delete("Origin");
         //newRequest.headers.delete("Referrer");
         //newRequest.headers.delete("Host");
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
         r.reqH = jsonHeaders(newRequest.headers);
         let response = await fetch(newRequest);
-        response.url.replace(targetHostname, proxyHostname);
+        if(response.url !== newRequest.url){
+            return Response.redirect(response.url.replace(targetHostname, proxyHostname));
+        }
+        //response.url.replace(targetHostname, proxyHostname);
         let newHeaders = new Headers();
         let newBody = null;
-        /*if (response.headers.get("Content-Type")?.match(/application|html/)) {
+        /*if (response.headers.get("Content-Type")?.match(/html/)) {
             let newBody = (await response.text()).replaceAll(targetHostname, proxyHostname);
             r.resB = newBody;
         } else {
             newBody = response.body;
         }*/newBody = response.body;
+        newHeaders.set("access-control-allow-origin", "*");
+        newHeaders.set("access-control-allow-credentials", "true");
+        newHeaders.delete("content-security-policy");
+        newHeaders.delete("content-security-policy-report-only");
+        newHeaders.delete("clear-site-data");
         response.headers.forEach((v, k) => newHeaders.set(k, v.replace(targetHostname, proxyHostname)));
         let newResponse = new Response(newBody, {
             status: response.status,
