@@ -26,8 +26,7 @@ export default {
         let response = await fetch(newRequest);
         let location = response.headers.get("Location");
         if (location) {
-            console.log(location, location.replace(targetHostname,proxyHostname))
-            response.headers.set("Location", location.replace(targetHostname, proxyHostname));
+            //response.headers.set("Location", location.replace(targetHostname, proxyHostname));
         }
         let r = {};
         response.headers.forEach((v, k) => r[k] = v);
