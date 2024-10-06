@@ -19,7 +19,7 @@ export default {
             headers: request.headers,
             body: request.body
         });
-        //newRequest.headers.set("Access-Control-Allow-Origin", "*");
+        newRequest.headers.set("Access-Control-Allow-Origin", "*");
         newRequest.headers.delete("Origin");
         newRequest.headers.delete("Referrer");
         newRequest.headers.delete("Host");
