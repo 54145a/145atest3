@@ -25,12 +25,13 @@ export default {
         });
         request.headers.forEach((v, k) => newRequest.headers.set(k, v.replace(proxyHostname, targetHostname)));
         newRequest.headers.set("Access-Control-Allow-Origin", "*");
-        newRequest.headers.delete("Origin");
-        newRequest.headers.delete("Referrer");
-        newRequest.headers.delete("Host");
+        //newRequest.headers.delete("Origin");
+        //newRequest.headers.delete("Referrer");
+        //newRequest.headers.delete("Host");
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
         r.reqH = jsonHeaders(newRequest.headers);
         let response = await fetch(newRequest);
+        response.url.replace(targetHostname, proxyHostname);
         let newText = (await response.text()).replaceAll(targetHostname, proxyHostname);
         let newResponse = new Response(newText);
         /*let location = response.headers.get("Location");
