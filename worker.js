@@ -7,9 +7,14 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-
+function jsonHeaders(h){
+    let r = {};
+    h.forEach((v,k) => r[k] = v);
+    return r;
+}
 export default {
     async fetch(request, env, ctx) {
+        let r = {};
         let targetHostname = "zh.wikipedia.org";
         let proxyHostname = "test3.54145a.cn.eu.org";
         if (new URL(request.url).pathname === "/robots.txt") {
@@ -24,6 +29,7 @@ export default {
         newRequest.headers.delete("Referrer");
         newRequest.headers.delete("Host");
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
+        r.reqH = jsonHeaders(newRequest.headers);
         let response = await fetch(newRequest);
         let newText = (await response.text()).replace(targetHostname, proxyHostname);
         let newResponse = new Response(newText);
@@ -36,6 +42,8 @@ export default {
         /*let r = {};
         response.headers.forEach((v, k) => r[k] = v);
         return new Response(JSON.stringify(r, void 0, 4));*/
-        return newResponse;
+        r.resH = jsonHeaders(newResponse.headers);
+        r.resB = await newResponse.text();
+        return JSON.stringify(r, void 0, 4);
     }
 };
