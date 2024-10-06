@@ -23,6 +23,6 @@ export default {
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
         let r = {};
         newRequest.headers.forEach((v, k) => r[k] = v);
-        return new Response(r);
+        return new Response(JSON.stringify(r, void 0, 4));
     }
 };
