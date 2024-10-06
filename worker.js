@@ -34,7 +34,7 @@ export default {
         response.url.replace(targetHostname, proxyHostname);
         let newHeaders = new Headers();
         let newText = null;
-        if (response.headers.get("Content-Type")?.startsWith("text")) {
+        if (response.headers.get("Content-Type")?.match(/(text|application)\/*/)) {
             let newText = (await response.text()).replaceAll(targetHostname, proxyHostname);
             r.resB = newText;
         }
