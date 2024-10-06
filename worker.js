@@ -11,8 +11,7 @@
 export default {
     async fetch(request, env, ctx) {
         let targetHostname = "zh.wikipedia.org";
-        let proxyHostname = request.url.hostname;
-        console.log(212, proxyHostname)
+        let proxyHostname = "test3.54145a.cn.eu.org";
         if (request.url.pathname === "/robots.txt") {
             return new Response("User-Agent: *\nDisallow: /");
         }
