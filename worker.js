@@ -8,14 +8,15 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-
 export default {
     async fetch(request, env, ctx) {
         let url = new URL(request.url);
+        let targetHostname = "zh.wikipedia.org";
+        let proxyHostname = url.hostname;
         if (url.pathname === "/robots.txt") {
             return new Response("User-Agent: *\nDisallow: /");
         }
-        url.hostname = "zh.wikipedia.org";
+        url.hostname = targetHostname;
         let newRequest = new Request(url, request);
         newRequest.headers.set("Access-Control-Allow-Origin", "*");
         newRequest.headers.delete("Origin");
@@ -23,6 +24,9 @@ export default {
         newRequest.headers.delete("Host");
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
         let response = await fetch(newRequest);
+        if (response.headers.has("location")) {
+            response.headers.set("Location", request.headers.get("Location").replace(targetHostname, proxyHostname));
+        }
         let r = {};
         response.headers.forEach((v, k) => r[k] = v);
         return new Response(JSON.stringify(r, void 0, 4));
