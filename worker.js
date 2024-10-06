@@ -34,9 +34,9 @@ export default {
         newRequest.headers.keys().filter(v => v.startsWith("cf")).forEach(v => newRequest.headers.delete(v));
         r.reqH = jsonHeaders(newRequest.headers);
         let response = await fetch(newRequest);
-        if (response.url !== newRequest.url) {
+        /*if (response.url !== newRequest.url) {
             return Response.redirect(response.url.replace(targetHostname, proxyHostname));
-        }
+        }*/
         //response.url.replace(targetHostname, proxyHostname);
         let newHeaders = new Headers();
         let newBody = null;
