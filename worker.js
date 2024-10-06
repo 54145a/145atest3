@@ -26,6 +26,7 @@ export default {
         let response = await fetch(newRequest);
         let location = response.headers.get("Location");
         if (location) {
+            response.headers.delete("Location");
             response.headers.set("Location", location.replace(targetHostname, proxyHostname));
         }
         let r = {};
